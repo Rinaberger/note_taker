@@ -17,7 +17,7 @@ const { notes } = require('./Develop/db/db');
 
 
 
-
+//retrieve note
 app.get('/api/db', (req, res) => {
     res.json(notes);
   });
