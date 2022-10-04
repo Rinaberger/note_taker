@@ -9,9 +9,11 @@ const app = express();
 
 const { notes } = require('./db/note');
 const { response } = require('express');
+const { dirname } = require('path');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'));
 
 function createNewNote(body, noteArray) {
     const note = body;
@@ -66,6 +68,19 @@ app.post('/api/note', (req, res) => {
     }
 });
 
+//route to home page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+//route to notes page
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
+//wildcard route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(--dirname, './public/index.html'));
+});
 
 //getting server to listen
 app.listen(PORT, () => {
