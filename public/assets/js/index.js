@@ -1,26 +1,11 @@
+const $noteForm = document.querySelector('#note-form');
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
-//tried to printresults per zookeepr project
-const printResults = resultArr => {
-  console.log(resultArr);
-
-  const notesHTML = resultArr.map(({ id, title, text }) => {
-    return `
-  <div class="col-12 col-md-5 mb-3">
-    <div class="card p-3" data-id=${id}>
-      <h4 class="text-primary">${title}</h4>
-      <p>${text.substring(0, 1).toUpperCase() + text.substring(1)}</p>
-    </div>
-  </div>
-    `;
-  });
-
-  $displayArea.innerHTML = notesHTML.join('');
-};
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -43,12 +28,16 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+const title = $noteForm.querySelector('[title="note-title]').value;
+const text = $noteForm.querySelector('[text="note-text]').value;
+const noteObject = { title, text };
 const getNotes = () => (
   fetch('/api/notes', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(noteObject)
   }) .then((response) => (
     response.json()
   )
