@@ -77,11 +77,6 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
-//wildcard route
-app.get('*', (req, res) => {
-    res.sendFile(path.join(--dirname, './public/index.html'));
-});
-
 //getting server to listen
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);

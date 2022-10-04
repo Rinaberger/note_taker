@@ -4,6 +4,24 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
+//tried to printresults per zookeepr project
+const printResults = resultArr => {
+  console.log(resultArr);
+
+  const notesHTML = resultArr.map(({ id, title, text }) => {
+    return `
+  <div class="col-12 col-md-5 mb-3">
+    <div class="card p-3" data-id=${id}>
+      <h4 class="text-primary">${title}</h4>
+      <p>${text.substring(0, 1).toUpperCase() + text.substring(1)}</p>
+    </div>
+  </div>
+    `;
+  });
+
+  $displayArea.innerHTML = notesHTML.join('');
+};
+
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
@@ -34,11 +52,34 @@ const getNotes = () => (
   }) .then((response) => (
     response.json()
   )
-  ) .then((data) => (
-    console.info(data)
+  ) .then((data) => {
+    console.info(data);
+    printResults(data);
     //need to call function to display first part of data to pull in all notes
-  ))
+  })
 );
+
+// const getNotes1 = (formData = {}) => {
+//   let queryUrl = '/api/animals?';
+
+//   Object.entries(formData).forEach(([key, value]) => {
+//     queryUrl += `${key}=${value}&`;
+//   });
+
+//   console.log(queryUrl);
+
+//   fetch(queryUrl)
+//     .then(response => {
+//       if (!response.ok) {
+//         return alert('Error: ' + response.statusText);
+//       }
+//       return response.json();
+//     })
+//     .then(noteData => {
+//       console.log(noteData);
+//       printResults(noteData);
+//     });
+// };
 
 const saveNote = (note) =>
   fetch('/api/notes', {
