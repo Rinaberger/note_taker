@@ -23,6 +23,21 @@ function createNewNote(body, noteArray) {
     );
     return note;
 }
+//validation of Note Title
+function validateNoteTitle(note) {
+    if (!note.title || typeof note.title !== 'string') {
+        return false;
+    }
+    return true;    
+}
+
+//validation of Note Text
+function validateNoteText(note) {
+    if (!note.text || typeof note.text !== 'string') {
+        return false;
+    }
+    return true;    
+}
 
 //retrieve note
 app.get('/api/note', (req, res) => {
@@ -37,11 +52,18 @@ app.get('/api/note/:id', (req, res) => {
         res.status(400).send("ID not found on request body.")
 })
 
-//create note
+//create note w/ validation
 app.post('/api/note', (req, res) => {
-    
+    if (!validateNoteTitle(req.body)) {
+        res.status(400).send('The title must not be blank.')    
+    } 
+    else if (!validateNoteText(req.body)) {
+        res.status(400).send('The note must have content.')    
+    }
+    else {
     const note = createNewNote(req.body, notes);
     res.json(note);
+    }
 });
 
 
