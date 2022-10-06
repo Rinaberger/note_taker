@@ -42,7 +42,7 @@ function validateNoteText(note) {
 }
 
 //retrieve note
-app.get('/api/note', (req, res) => {
+app.get('/api/notes', (req, res) => {
     res.json(notes);
 });
 
@@ -55,7 +55,7 @@ app.get('/api/note/:id', (req, res) => {
 })
 
 //create note w/ validation
-app.post('/api/note', (req, res) => {
+app.post('/api/notes', (req, res) => {
     if (!validateNoteTitle(req.body)) {
         res.status(400).send('The title must not be blank.')    
     } 
@@ -73,13 +73,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 });
 //route to notes page
-app.get('/notes', (req, res) => {
+app.get('/notes', (req, res) => { 
+    console.log(res);
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
 //wildcard route
 app.get('*', (req, res) => {
-    res.sendFile(path.join(--dirname, './public/index.html'));
+    res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 //getting server to listen
